@@ -1,0 +1,14 @@
+@TODO
+
+Devide types in vector-point.ts to seperate files
+Make SVGPathFactory, Transformer and CurveFactory a service
+Move predefined points in Pattern Image Component to a service.
+    Pattern component doesnt have to know measurments, just points
+Move Skirt pattern making to a service
+
+Make one path instead of many if curve type !=== NONE
+replace curve type none with starting point
+or make a method 'continueWith'
+Install snap.svg library
+
+Automatically connect darts tops
