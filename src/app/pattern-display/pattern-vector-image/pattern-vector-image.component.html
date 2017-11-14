@@ -1,0 +1,48 @@
+<div class="mat-elevation-z1 pattern-image">
+
+<div class="svg-container" [ngStyle]="{width: backSeamX * 7 + 'px', height: totalHeight * 7 + 'px'}">
+  <svg 
+    [attr.viewBox]="viewbox">
+    <path
+      *ngFor="let path of svgPaths; let i = index"
+      [attr.stroke]="path.strokeColor" 
+      [attr.stroke-width]="path.strokeWidth"
+      [attr.stroke-dasharray]="path.strokeDasharray"
+      fill="none"
+      [attr.d]="path.d">
+    </path>
+    <g stroke="#111" fill="#111">
+      <circle 
+        stroke-width="0.2"
+        r="0.2"
+        *ngFor="let point of vectorPoints"
+        [attr.cx]="point.point.x"
+        [attr.cy]="point.point.y"
+      />
+    </g>
+  </svg>
+</div>
+
+
+<!--<svg height="400" width="450">
+  <path id="lineAB"  stroke-dasharray="15,5" 
+  d="M 100 350 l 150 -300" stroke="red"  stroke-dasharray="8,4"  stroke-width="2" fill="none" />
+  <path id="lineBC" d="M 250 50 q 150 130 150 300" stroke="red" stroke-width="3" fill="none" />
+  <path id="lineBC" d="M 250 50 C 400 200      400 300       400 350" stroke="red" stroke-width="3" fill="none" />
+    
+    
+    
+  <path d="M 175 200 l 150 0" stroke="green" stroke-width="3" fill="none" />
+  
+  
+  <path d="M 100 350 q 150 -300 300 0" stroke="blue" stroke-width="5" fill="none" />
+
+  <g stroke="black" stroke-width="3" fill="black" >
+    <circle id="pointA" cx="100" cy="350" r="3" />
+    <circle id="pointB" cx="250" cy="50" r="3" />
+    <circle id="pointC" cx="400" cy="350" r="3" />
+  </g>
+
+  Sorry, your browser does not support inline SVG.
+</svg>-->
+<div>

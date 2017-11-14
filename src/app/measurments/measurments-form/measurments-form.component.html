@@ -1,0 +1,58 @@
+<mat-toolbar>
+  <span>Twoje wymiary</span>
+</mat-toolbar>
+<form [formGroup]="measurments" class="measurments">
+  <div class="row">
+    <mat-form-field class="ui-grid-col-4">
+      <input type="number" 
+        matInput 
+        placeholder="Wzrost"       
+        [formControl]="heightControl">
+      <span matSuffix>cm</span>
+
+      <mat-error *ngIf="heightControl.hasError('min')">
+        Wzrost nie może być mniejszy niż <strong>{{heightControl.errors.min.min}}cm</strong>
+      </mat-error>
+      <mat-error *ngIf="heightControl.hasError('max')">
+        Wzrost nie może być większy niż <strong>{{heightControl.errors.max.max}}cm</strong>
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="ui-grid-col-4">
+      <input type="number"
+        matInput 
+        placeholder="Obwód pasa"       
+        [formControl]="waistControl">
+      <span matSuffix>cm</span>
+
+      <mat-error *ngIf="waistControl.hasError('min')">
+        Obwód pasa nie może być mniejszy niż <strong>{{waistControl.errors.min.min}}cm</strong>
+      </mat-error>
+      <mat-error *ngIf="waistControl.hasError('max')">
+        Obwód pasa nie może być większy niż <strong>{{waistControl.errors.max.max}}cm</strong>
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="ui-grid-col-4">
+      <input type="number" 
+        matInput 
+        placeholder="Obwód bioder"        
+        [formControl]="hipsControl">
+      <span matSuffix>cm</span>
+
+        <mat-error *ngIf="hipsControl.hasError('min')">
+          Obwód bioder nie może być mniejszy niż <strong>{{hipsControl.errors.min.min}}cm</strong>
+        </mat-error>
+        <mat-error *ngIf="hipsControl.hasError('max')">
+          Obwód bioder nie może być większy niż <strong>{{hipsControl.errors.max.max}}cm</strong>
+        </mat-error>
+    </mat-form-field>
+
+
+    <!--<div class="col s12">
+      <button type="submit" color="primary" mat-raised-button>Generuj formę</button>
+    </div>-->
+  </div>
+</form>

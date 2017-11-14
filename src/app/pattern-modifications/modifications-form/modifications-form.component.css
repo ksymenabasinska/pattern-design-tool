@@ -1,0 +1,17 @@
+.modifications {
+    padding: 30px;
+    background-color: #fff;
+}
+h4 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0 0 6px 0;
+    padding: 0;
+    line-height: 1;
+}
+.mat-slider-horizontal {
+    height: 48px;
+    min-width: 104%;
+    left: -8px;
+    position: relative;
+}

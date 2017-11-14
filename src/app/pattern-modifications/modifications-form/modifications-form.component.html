@@ -1,0 +1,17 @@
+<mat-toolbar color="accent">
+  <span>Modyfikacje formy</span>
+</mat-toolbar>
+<div class="modifications">
+
+  <h4>Długość spódnicy</h4>
+  <mat-slider
+    min="0"
+    max="1"
+    [value]="skirtLength"
+    [step]="0.1"
+    [thumb-label]="true"
+    [tick-interval]="0.1"
+    (change)="skirtLengthChanged($event)">
+  </mat-slider>
+
+</div>

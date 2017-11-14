@@ -1,0 +1,44 @@
+:host{
+    position: relative;
+    display: block;
+    z-index: 2;
+}
+nav {
+    height: 62px;
+    position: relative;
+    width: 100%;
+}
+.nav-wrapper {
+    position: relative;
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    line-height: 62px;
+    background-color: #673ab7; 
+}
+.right {
+    float: right
+}
+.brand-logo {
+    position: relative;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 22px;    
+    padding: 0 2px;
+    line-height: 62px;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+}
+.brand-logo .design {
+    font-weight: 300;
+}
+.brand-logo::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: -5px;
+    right: -5px;
+    bottom: 16px;
+    border: 1px dashed #fff;
+}
