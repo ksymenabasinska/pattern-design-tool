@@ -18,7 +18,8 @@ export enum LinePurpose {
     YOKE_TOP,
     YOKE_SIDE,
     SYMETRY_FOLD,
-    SIDE_SEAM
+    SIDE_SEAM,
+    COPY
 }
 
 const basicStrokeWidth = 0.2;
@@ -29,9 +30,9 @@ export const StrokeStyles = {
         dasharray: '0.5, 0.2'
     },
     FOLD: <StrokeStyle> {
-        colorHash: '#000',
-        width: basicStrokeWidth / 2,
-        dasharray: '0.2, 0.2'
+        colorHash: '#673ab7',
+        width: basicStrokeWidth,
+        dasharray: ''
     },
     SEAM_ALLOWANCE: <StrokeStyle> {
         colorHash: '#000',
@@ -45,6 +46,11 @@ export const StrokeStyles = {
     },
     NORMAL: <StrokeStyle> {
         colorHash: '#000',
+        width: basicStrokeWidth,
+        dasharray: ''
+    },
+    COPY: <StrokeStyle> {
+        colorHash: '#666',
         width: basicStrokeWidth,
         dasharray: ''
     },
@@ -131,6 +137,10 @@ export const SVGPathFactory = {
                 let stroke;
                 if (path.linePurposes.find(lineP => lineP === LinePurpose.HELPER)) {
                     stroke = StrokeStyles.HELPER;
+                } else if (path.linePurposes.find(lineP => lineP === LinePurpose.SYMETRY_FOLD)) {
+                    stroke = StrokeStyles.FOLD;
+                } else if (path.linePurposes.find(lineP => lineP === LinePurpose.COPY)) {
+                    stroke = StrokeStyles.COPY;
                 } else {
                     stroke = StrokeStyles.NORMAL;
                 }
@@ -165,7 +175,7 @@ export function createHipLine(from: Point, to: Point) {
     const pullStrength = (to.x - from.x) / 2;
     const topCurvePoint = {
         x: pullStrength + from.x,
-        y: pullStrength + from.y
+        y:  Math.abs(pullStrength) + from.y
     };
 
     const bottomCurvePoint = {
@@ -197,6 +207,18 @@ export const Transformer = {
     },
     makeScaledBy(vectorObject: PathPoint[],  scale: number) {
 
+    },
+    // @TODO make flipped by any line
+    makeFlippedVertically(paths: PathPoint[], x: number) {
+      return paths.map(path => {
+        const newPointLocation = {
+            x: (x - path.point.x) + x,
+            y: path.point.y
+        };
+        return {...path,
+            point: newPointLocation
+        };
+    });
     }
 };
 
@@ -207,9 +229,9 @@ export const PieceFactory = {
         return {
             id: this._id++,
             position: {
-                    x: 0,
-                    y: 0
-                }
+                x: 0,
+                y: 0
+            }
         };
     }
 };

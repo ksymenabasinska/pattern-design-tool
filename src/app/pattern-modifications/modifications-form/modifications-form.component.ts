@@ -1,3 +1,4 @@
+import {MatSlideToggleChange} from '@angular/material/slide-toggle/typings';
 import { Component, OnInit } from '@angular/core';
 import { ModificationsService } from '../modifications.service';
 import { Subscription } from 'rxjs/Rx';
@@ -10,12 +11,13 @@ import {MatSliderChange} from '@angular/material';
 })
 export class ModificationsFormComponent implements OnInit {
 
-  private skirtLength = 0.5;
+  public skirtLength = 0.5;
+  public showFullSkirt = false;
 
   constructor(
     private modificationsService: ModificationsService
   ) {
-    this.modificationsService.setSkirtLength(this.skirtLength);
+    this.update();
   }
 
   ngOnInit() {
@@ -23,6 +25,19 @@ export class ModificationsFormComponent implements OnInit {
 
   public skirtLengthChanged(change: MatSliderChange) {
     console.log(change);
-    this.modificationsService.setSkirtLength(change.value);
+    this.skirtLength = change.value;
+    this.update();
+  }
+
+  public showFullToggled(change: MatSlideToggleChange) {
+    this.showFullSkirt = change.checked;
+    this.update();
+  }
+
+  private update() {
+    this.modificationsService.set({
+      skirtLength: this.skirtLength,
+      showFullSkirt: this.showFullSkirt
+    });
   }
 }

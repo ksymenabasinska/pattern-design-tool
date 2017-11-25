@@ -21,7 +21,10 @@ export class PatternVectorImageComponent implements OnInit {
   private hips = 95;
   public viewbox: string;
 
-  private modifications;
+  private modifications = {
+    skirtLength: 0.5,
+    showFullSkirt: false
+  };
   private mStream: Subscription;
 
   @Input()
@@ -45,6 +48,7 @@ export class PatternVectorImageComponent implements OnInit {
     });
 
     this.modificationsService.modifications$.subscribe(m => {
+      console.log(m);
       this.modifications = m;
       this.refresh();
     });
@@ -60,6 +64,7 @@ export class PatternVectorImageComponent implements OnInit {
 
     this.createHelpers();
     this.createBackPiece();
+    this.createFrontPiece();
     this.svgPaths = SVGPathFactory.createSVG(this.vectorPoints);
     this.viewbox = '0 0 ' + this.backSeamX + ' 100';
 
@@ -84,7 +89,10 @@ export class PatternVectorImageComponent implements OnInit {
     const backDartHelper = Transformer
       .makeTranslatedBy(dartHelper, this.backDartTopPoint);
     const frontDartHelper = Transformer
-      .makeTranslatedBy(dartHelper, this.frontDartTopPoint);
+      .makeTranslatedBy(dartHelper, {
+        x: this.frontDartTopPoint.x + this.hipsTopPoint.x + 2,
+        y: this.frontDartTopPoint.y
+      });
 
     return vHelper.concat(middleVHelper, backVHelper, backDartHelper, frontDartHelper);
   }
@@ -104,6 +112,7 @@ export class PatternVectorImageComponent implements OnInit {
   }
 
   private get skirtLength() {
+    console.log(this.modifications);
     if (this.modifications) {
       return this.legsLength * this.modifications.skirtLength;
     }
@@ -146,6 +155,10 @@ export class PatternVectorImageComponent implements OnInit {
     };
   }
 
+  get totalWidth() {
+    return this.modifications.showFullSkirt ? this.backSeamX * 2 : this.backSeamX;
+  }
+
   get backSeamX() {
     return this.hips / 2 + 1;
   }
@@ -175,7 +188,7 @@ export class PatternVectorImageComponent implements OnInit {
   // @TODO define all pieces separately and than just move them
   get frontDartTopPoint(): Point {
     return {
-      x: this.hipsTopPoint.x + (this.backWidth / 2) - 2,
+      x: (this.backWidth / 2) - 2,
       y: 0
     };
   }
@@ -186,6 +199,7 @@ export class PatternVectorImageComponent implements OnInit {
       y: this.hipHeight - 6
     };
   }
+
 
   get hipDartWidth() {
      return this.avgDartWidth / 2 - 0.5;
@@ -295,8 +309,35 @@ export class PatternVectorImageComponent implements OnInit {
 
 
   private createBackPiece() {
-    const sideLine = this.createSideLine();
-    this.vectorPoints = this.vectorPoints.concat(sideLine);
+    const piece = this.createSkirtPiece(this.startingPoint, this.backDartTopPoint, this.backDartWidth, this.backDartStartPoint);
+    if (this.modifications.showFullSkirt) {
+      const pieceCopy = this.unfoldPiece(piece, 0);
+      this.vectorPoints = this.vectorPoints.concat(pieceCopy);
+    }
+    this.vectorPoints = this.vectorPoints.concat(piece);
+  }
+
+  private unfoldPiece(piece, x) {
+    const flippedPiece = Transformer.makeFlippedVertically(piece, x);
+    flippedPiece.map((path: PathPoint) => {
+      path.linePurposes.push(LinePurpose.COPY);
+    });
+    return flippedPiece;
+  }
+
+  private createFrontPiece() {
+    const frontStartingPoint = {
+      x: this.startingPoint.x + this.hipsTopPoint.x - this.backWidth,
+      y: this.startingPoint.y
+    };
+    const piece = this.createSkirtPiece(frontStartingPoint, this.frontDartTopPoint, this.frontDartWidth, this.frontDartStartPoint);
+    const frontPiece = Transformer.makeFlippedVertically(piece, this.hipsTopPoint.x);
+
+    if (this.modifications.showFullSkirt) {
+      const pieceCopy = this.unfoldPiece(frontPiece, this.backSeamX);
+      this.vectorPoints = this.vectorPoints.concat(pieceCopy);
+    }
+    this.vectorPoints = this.vectorPoints.concat(frontPiece);
   }
 
   private createHipDart() {
@@ -314,7 +355,7 @@ export class PatternVectorImageComponent implements OnInit {
     }];
   }
 
-  private createSideLine() {
+  private createSkirtPiece(startingPoint, dartTopPoint, dartWidth, dartStartPoint) {
 
     const hipDart = this.createHipDart();
     const backHipDartPoint: PathPoint[] = Transformer
@@ -332,18 +373,18 @@ export class PatternVectorImageComponent implements OnInit {
     };
 
     const backBottomPoint = {
-      x: this.startingPoint.x,
+      x: startingPoint.x,
       y: this.totalHeight
     };
 
     // @TODO flip it, make a createDartMethod
     const dartA = {
-      x: this.backDartTopPoint.x - this.backDartWidth / 2,
-      y: this.backDartTopPoint.y
+      x: dartTopPoint.x - dartWidth / 2,
+      y: dartTopPoint.y
     };
     const dartB = {
-      x: this.backDartTopPoint.x + this.backDartWidth / 2,
-      y: this.backDartTopPoint.y
+      x: dartTopPoint.x + dartWidth / 2,
+      y: dartTopPoint.y
     };
 
     return backHipDartPoint.concat([
@@ -360,12 +401,12 @@ export class PatternVectorImageComponent implements OnInit {
         {
           point: backBottomPoint,
           curve: CurveType.LINE,
-          linePurposes: [LinePurpose.HEM, LinePurpose.SYMETRY_FOLD]
+          linePurposes: [LinePurpose.SYMETRY_FOLD]
         },
         {
-          point: this.startingPoint,
+          point: startingPoint,
           curve: CurveType.LINE,
-          linePurposes: [LinePurpose.SYMETRY_FOLD]
+          linePurposes: [LinePurpose.HEM]
         },
         {
           point: dartA,
@@ -373,14 +414,14 @@ export class PatternVectorImageComponent implements OnInit {
           linePurposes: [LinePurpose.DART_TOP_A, LinePurpose.YOKE_TOP]
         },
         {
-          point: this.backDartStartPoint,
+          point: dartStartPoint,
           curve: CurveType.LINE,
-          linePurposes: [LinePurpose.DART_TOP_A, LinePurpose.YOKE_TOP]
+          linePurposes: [LinePurpose.DART_BOTTOM, LinePurpose.YOKE_TOP]
         },
         {
           point: dartB,
           curve: CurveType.LINE,
-          linePurposes: [LinePurpose.DART_TOP_A, LinePurpose.YOKE_TOP]
+          linePurposes: [LinePurpose.DART_TOP_B, LinePurpose.YOKE_TOP]
         },
         {
           point: this.hipDartStartPoint,

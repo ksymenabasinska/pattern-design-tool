@@ -13,9 +13,8 @@ export class ModificationsService {
     return Observable.from(this.modifications);
   }
 
-  public setSkirtLength(value) {
-    this.modifications.next({
-      skirtLength: value
-    });
+  public set(value) {
+    console.log(value);
+    this.modifications.next(value);
   }
 }

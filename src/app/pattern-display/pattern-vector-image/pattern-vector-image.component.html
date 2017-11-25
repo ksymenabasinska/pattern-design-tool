@@ -1,18 +1,18 @@
-<div class="mat-elevation-z1 pattern-image">
+<div class="mat-elevation-z1 pattern-image"  [ngStyle]="{width: totalWidth * 7 + 'px'}">
 
 <div class="svg-container" [ngStyle]="{width: backSeamX * 7 + 'px', height: totalHeight * 7 + 'px'}">
-  <svg 
+  <svg
     [attr.viewBox]="viewbox">
     <path
       *ngFor="let path of svgPaths; let i = index"
-      [attr.stroke]="path.strokeColor" 
+      [attr.stroke]="path.strokeColor"
       [attr.stroke-width]="path.strokeWidth"
       [attr.stroke-dasharray]="path.strokeDasharray"
       fill="none"
       [attr.d]="path.d">
     </path>
     <g stroke="#111" fill="#111">
-      <circle 
+      <circle
         stroke-width="0.2"
         r="0.2"
         *ngFor="let point of vectorPoints"
@@ -25,16 +25,16 @@
 
 
 <!--<svg height="400" width="450">
-  <path id="lineAB"  stroke-dasharray="15,5" 
+  <path id="lineAB"  stroke-dasharray="15,5"
   d="M 100 350 l 150 -300" stroke="red"  stroke-dasharray="8,4"  stroke-width="2" fill="none" />
   <path id="lineBC" d="M 250 50 q 150 130 150 300" stroke="red" stroke-width="3" fill="none" />
   <path id="lineBC" d="M 250 50 C 400 200      400 300       400 350" stroke="red" stroke-width="3" fill="none" />
-    
-    
-    
+
+
+
   <path d="M 175 200 l 150 0" stroke="green" stroke-width="3" fill="none" />
-  
-  
+
+
   <path d="M 100 350 q 150 -300 300 0" stroke="blue" stroke-width="5" fill="none" />
 
   <g stroke="black" stroke-width="3" fill="black" >

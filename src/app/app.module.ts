@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { RouterModule, Routes } from '@angular/router';
 import { NavComponent } from './nav/nav.component';
 import { MeasurmentsComponent } from './measurments/measurments.component';
 import { MeasurmentsService } from './measurments/measurments.service';
@@ -47,6 +48,7 @@ import {
   MatTooltipModule,
   MAT_PLACEHOLDER_GLOBAL_OPTIONS } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
