@@ -5,14 +5,23 @@
   <h3>Modyfikacje</h3>
   <h4>Długość spódnicy</h4>
   <mat-slider
-  min="0"
-  max="1"
-  [value]="skirtLength"
-  [step]="0.1"
-  [thumb-label]="true"
-  [tick-interval]="0.1"
-  (change)="skirtLengthChanged($event)">
-</mat-slider>
+    min="0"
+    max="1"
+    [value]="skirtLength"
+    [step]="0.01"
+    [thumb-label]="true"
+    (change)="skirtLengthChanged($event)">
+  </mat-slider>
+
+  <h4>Wysokość stanu</h4>
+  <mat-slider
+    min="0"
+    max="1"
+    [value]="waistLevel"
+    [step]="0.01"
+    [thumb-label]="true"
+    (change)="waistLevelChanged($event)">
+  </mat-slider>
 
 <h3>Widok</h3>
 <mat-slide-toggle

@@ -14,7 +14,7 @@ export class ModificationsService {
   }
 
   public set(value) {
-    console.log(value);
+    // console.log(value);
     this.modifications.next(value);
   }
 }

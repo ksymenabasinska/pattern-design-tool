@@ -12,6 +12,7 @@ import {MatSliderChange} from '@angular/material';
 export class ModificationsFormComponent implements OnInit {
 
   public skirtLength = 0.5;
+  public waistLevel = 0;
   public showFullSkirt = false;
 
   constructor(
@@ -24,8 +25,14 @@ export class ModificationsFormComponent implements OnInit {
   }
 
   public skirtLengthChanged(change: MatSliderChange) {
-    console.log(change);
+    // console.log(change);
     this.skirtLength = change.value;
+    this.update();
+  }
+
+  public waistLevelChanged(change: MatSliderChange) {
+    // console.log(change);
+    this.waistLevel = change.value;
     this.update();
   }
 
@@ -37,7 +44,8 @@ export class ModificationsFormComponent implements OnInit {
   private update() {
     this.modificationsService.set({
       skirtLength: this.skirtLength,
-      showFullSkirt: this.showFullSkirt
+      showFullSkirt: this.showFullSkirt,
+      waistLevel: this.waistLevel
     });
   }
 }
