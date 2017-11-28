@@ -14,6 +14,6 @@ export class MeasurmentsService {
   }
 
   public setMeasurments(m) {
-    this.measurments.next(m); 
+    this.measurments.next(m);
   }
 }
