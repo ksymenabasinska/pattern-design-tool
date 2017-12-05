@@ -32,3 +32,17 @@ export const PathTransformer = {
     });
     }
 };
+
+
+        // const newPoints = [];
+        // paths.map((path, i) => {
+        //     const newPointLocation = {
+        //         x: (x - path.point.x) + x,
+        //         y: path.point.y
+        //     };
+        //     newPoints[paths.length - 1 - i] = {...path,
+        //         point: newPointLocation
+        //     };
+        // });
+        // // console.log(newPoints, paths);
+        // return newPoints;

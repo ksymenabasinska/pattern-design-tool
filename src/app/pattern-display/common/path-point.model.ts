@@ -5,7 +5,8 @@ import { LinePurpose } from './line-purpose.enum';
 export interface PathPoint {
     point: Point;
     curve: CurveType;
+    curveEnd?: CurveType;
     linePurposes: LinePurpose[];
-    pieceIds?: number[];
-    seamAllowance?: number;
+    // pieceIds?: number[];
+    // seamAllowance?: number;
 }

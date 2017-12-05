@@ -14,6 +14,8 @@ import { PointTransformer } from '../common/point-transformer';
 import 'snapsvg-cjs';
 declare var Snap: any;
 
+import * as testPoints from '../common/path-d.factory';
+
 @Component({
   selector: 'pd-pattern-vector-image',
   templateUrl: './pattern-vector-image.component.html',
@@ -23,7 +25,7 @@ export class PatternVectorImageComponent implements OnInit {
 
   public imageWidth: 400;
   public imageHeight: 600;
-
+  public testPoints = testPoints.points;
   // this should be a separate object
   private height = 172;
   private waist = 64;
@@ -170,6 +172,13 @@ export class PatternVectorImageComponent implements OnInit {
     return {
       x: this.frontSymetyX,
       y: this.startingPoint.y,
+    };
+  }
+
+  private get visualFrontDart() {
+    return {
+      x: this.frontDartStartPoint.x + this.hipsTopPoint.x + 2,
+      y: this.frontDartStartPoint.y
     };
   }
 
@@ -529,7 +538,8 @@ export class PatternVectorImageComponent implements OnInit {
     if (showFrontDart) {
       return [{
             point: startingPoint,
-            curve: CurveType.WAIST_CURVE,
+            curve: CurveType.HOR_LINE,
+            curveEnd: CurveType.WAIST_CURVE,
             linePurposes: [LinePurpose.HEM]
           },
           {
@@ -556,7 +566,8 @@ export class PatternVectorImageComponent implements OnInit {
     } else {
         return [{
             point: startingPoint,
-            curve: CurveType.WAIST_CURVE,
+            curve: CurveType.HOR_LINE,
+            curveEnd: CurveType.WAIST_CURVE,
             linePurposes: [LinePurpose.HEM]
           },
           {
@@ -577,7 +588,8 @@ export class PatternVectorImageComponent implements OnInit {
     if (showFrontDart) {
       return [{
             point: startingPoint,
-            curve: CurveType.WAIST_CURVE,
+            curve: CurveType.HOR_LINE,
+            curveEnd: CurveType.WAIST_CURVE,
             linePurposes: [LinePurpose.HEM]
           },
           {
@@ -604,7 +616,8 @@ export class PatternVectorImageComponent implements OnInit {
     } else {
       return [{
             point: startingPoint,
-            curve: CurveType.WAIST_CURVE,
+            curve: CurveType.HOR_LINE,
+            curveEnd: CurveType.WAIST_CURVE,
             linePurposes: [LinePurpose.HEM]
           },
           {
@@ -640,6 +653,19 @@ export class PatternVectorImageComponent implements OnInit {
     const frontPiece = PathTransformer
       .makeFlippedVertically(this.getFrontPiecePoints(), this.hipsTopPoint.x);
     this.vectorPoints = this.vectorPoints.concat(frontPiece);
+
+    console.log( this.getFrontRotatedPoints(frontPiece));
+    const rotatedFrontPiece = this.getFrontRotatedPoints(frontPiece).map(p => {
+      console.log( this.modifications.skirtLength * 36);
+      const angle =  this.modifications.waistLevel * 20 * -1;
+      testPoints.points.push( PointTransformer.rotate(p.point, this.visualFrontDart, angle));
+      return {
+        ...p,
+        point: PointTransformer.rotate(p.point, this.visualFrontDart, angle)
+      };
+    });
+
+    this.vectorPoints = this.vectorPoints.concat(rotatedFrontPiece);
   }
 
   private createHipDart(dartWidth) {
@@ -652,6 +678,14 @@ export class PatternVectorImageComponent implements OnInit {
       curve: curveType,
       linePurposes: [linePurpose]
     }];
+  }
+
+  private getFrontRotatedPoints(frontPiece): PathPoint[] {
+    return frontPiece.filter(p => {
+      console.log('p.point.x > this.frontDartStartPoint.x', p.point.x , this.visualFrontDart.x);
+      testPoints.points.push(this.frontDartStartPoint);
+      return p.point.x >= this.visualFrontDart.x;
+    });
   }
 
 }

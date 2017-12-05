@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
 export class MeasurmentsService {
@@ -16,4 +16,5 @@ export class MeasurmentsService {
   public setMeasurments(m) {
     this.measurments.next(m);
   }
+
 }
