@@ -23,7 +23,6 @@ export const PointTransformer = {
         };
     },
     moveAlongBrezVer(point: Point, directionPoint: Point, curveType: CurveType, yDiff: number) {
-        console.log(yDiff);
         const path = createPathD(point, directionPoint, CurveType.HIP_CURVE);
         const iPointA = PointTransformer.addPoints(point, {
             x: - 10,
@@ -35,9 +34,7 @@ export const PointTransformer = {
         });
         const intersectionLine = createPathD(iPointA, iPointB, CurveType.LINE);
 
-        console.log('path: ', iPointA, 'intersectionLine: ', iPointB);
         const iPoint = Snap.path.intersection(path, intersectionLine)[0];
-        console.log(Snap.path.intersection(path, intersectionLine));
         return {
             x: iPoint.x,
             y: iPoint.y
@@ -51,6 +48,26 @@ export const PointTransformer = {
             y: xDiff * ctg + point.y
         };
     },
+    rotate(rotated: Point, pivot: Point, angle) {
+        const p = {... rotated};
+        const cx = pivot.x;
+        const cy = pivot.y;
+        const s = Snap.sin(angle);
+        const c = Snap.cos(angle);
+
+        // translate point back to origin:
+        p.x -= cx;
+        p.y -= cy;
+
+        // rotate point
+        const xnew = p.x * c - p.y * s;
+        const ynew = p.x * s + p.y * c;
+
+        // translate point back:
+        p.x = xnew + cx;
+        p.y = ynew + cy;
+        return p;
+    }
 };
 
 

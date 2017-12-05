@@ -22,12 +22,14 @@ export const SVGPathFactory = {
                 } else {
                     stroke = StrokeStyles.NORMAL;
                 }
-                svg.push({
-                    strokeColor: stroke.colorHash,
-                    strokeWidth: stroke.width,
-                    strokeDasharray: stroke.dasharray,
-                    d: createPathD(path.point, pathPoints[i + 1].point, path.curve)
-                });
+                if (pathPoints[i + 1]) {
+                    svg.push({
+                        strokeColor: stroke.colorHash,
+                        strokeWidth: stroke.width,
+                        strokeDasharray: stroke.dasharray,
+                        d: createPathD(path.point, pathPoints[i + 1].point, path.curve, path.curveEnd)
+                    });
+                }
             }
         });
         return svg;

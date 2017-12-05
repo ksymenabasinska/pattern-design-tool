@@ -20,6 +20,15 @@
         [attr.cy]="point.point.y"
       />
     </g>
+    <g stroke="#11f" fill="#111">
+      <circle
+        stroke-width="0.2"
+        r="0.2"
+        *ngFor="let point of testPoints"
+        [attr.cx]="point.x"
+        [attr.cy]="point.y"
+      />
+    </g>
   </svg>
 </div>
 
