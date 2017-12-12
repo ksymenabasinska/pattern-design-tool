@@ -51,7 +51,7 @@ export function getWaistBrezierPoint(from: Point, to: Point, isEndPoint, angle =
     };
 
     const x = (rotated.x - point.x) * Snap.cos(rotateAngle) - (rotated.y - point.y) * Snap.sin(rotateAngle) + point.x;
-    const y = Math.abs((rotated.x - point.x) * Snap.sin(rotateAngle) - (rotated.y - point.y) * Snap.cos(rotateAngle)) + point.y;
+    const y = (rotated.x - point.x) * Snap.sin(rotateAngle) - (rotated.y - point.y) * Snap.cos(rotateAngle) + point.y;
 
     return {
         x: x,
