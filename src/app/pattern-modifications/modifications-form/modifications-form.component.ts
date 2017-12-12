@@ -13,6 +13,7 @@ export class ModificationsFormComponent implements OnInit {
 
   public skirtLength = 0.5;
   public waistLevel = 0;
+  public flaringLevel = 0;
   public showFullSkirt = false;
 
   constructor(
@@ -36,6 +37,12 @@ export class ModificationsFormComponent implements OnInit {
     this.update();
   }
 
+  public flaringChanged(change: MatSliderChange) {
+    // console.log(change);
+    this.flaringLevel = change.value;
+    this.update();
+  }
+
   public showFullToggled(change: MatSlideToggleChange) {
     this.showFullSkirt = change.checked;
     this.update();
@@ -45,7 +52,8 @@ export class ModificationsFormComponent implements OnInit {
     this.modificationsService.set({
       skirtLength: this.skirtLength,
       showFullSkirt: this.showFullSkirt,
-      waistLevel: this.waistLevel
+      waistLevel: this.waistLevel,
+      flaring: this.flaringLevel,
     });
   }
 }

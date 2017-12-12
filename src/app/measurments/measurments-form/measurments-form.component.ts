@@ -22,8 +22,8 @@ export class MeasurmentsFormComponent implements OnInit, OnDestroy {
   ) {
     this.measurments = fb.group({
       height: [172, [Validators.required, Validators.max(200), Validators.min(50)]],
-      waist: [64, [Validators.min(30), Validators.max(100)]],
-      hips: [95, [Validators.min(50), Validators.max(150)]]
+      waist: [64, [Validators.min(30), Validators.max(130)]],
+      hips: [95, [Validators.min(50), Validators.max(160)]]
     });
     this.heightControl = this.measurments.controls['height'];
     this.waistControl = this.measurments.controls['waist'];

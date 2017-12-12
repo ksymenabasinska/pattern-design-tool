@@ -21,28 +21,26 @@ export const PathTransformer = {
     },
     // @TODO make flipped by any line
     makeFlippedVertically(paths: PathPoint[], x: number) {
-      return paths.map(path => {
-        const newPointLocation = {
-            x: (x - path.point.x) + x,
-            y: path.point.y
-        };
-        return {...path,
-            point: newPointLocation
-        };
-    });
+        const flippedPaths = [];
+        const maxIndex = paths.length - 1;
+        paths.map((path, i) => {
+            const newPointLocation = {
+                x: (x - path.point.x) + x,
+                y: path.point.y
+            };
+            const pathToCopy = paths[(maxIndex * 2 + i - 1) % maxIndex];
+            flippedPaths[maxIndex - i] = {
+                ...pathToCopy,
+                point: newPointLocation
+            };
+            if (pathToCopy.curveEnd) {
+                flippedPaths[maxIndex - i].curve = pathToCopy.curveEnd;
+                flippedPaths[maxIndex - i].curveEnd = pathToCopy.curve;
+            }
+            return {...path,
+                point: newPointLocation
+            };
+        });
+        return flippedPaths;
     }
 };
-
-
-        // const newPoints = [];
-        // paths.map((path, i) => {
-        //     const newPointLocation = {
-        //         x: (x - path.point.x) + x,
-        //         y: path.point.y
-        //     };
-        //     newPoints[paths.length - 1 - i] = {...path,
-        //         point: newPointLocation
-        //     };
-        // });
-        // // console.log(newPoints, paths);
-        // return newPoints;

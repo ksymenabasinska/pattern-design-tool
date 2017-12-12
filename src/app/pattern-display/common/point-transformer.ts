@@ -50,34 +50,18 @@ export const PointTransformer = {
     },
     rotate(rotated: Point, pivot: Point, angle) {
         const p = {... rotated};
-        const cx = pivot.x;
-        const cy = pivot.y;
-        const s = Snap.sin(angle);
-        const c = Snap.cos(angle);
 
         // translate point back to origin:
-        p.x -= cx;
-        p.y -= cy;
+        p.x -= pivot.x;
+        p.y -= pivot.y;
 
         // rotate point
-        const xnew = p.x * c - p.y * s;
-        const ynew = p.x * s + p.y * c;
+        const xnew = p.x * Snap.cos(angle) - p.y * Snap.sin(angle);
+        const ynew = p.x * Snap.sin(angle) + p.y * Snap.cos(angle);
 
         // translate point back:
-        p.x = xnew + cx;
-        p.y = ynew + cy;
+        p.x = xnew + pivot.x;
+        p.y = ynew + pivot.y;
         return p;
     }
 };
-
-
-// Snap.path.getTotalLength(path)
-// Snap.path.getPointAtLength(path, length)
-// Snap.path.getSubpath(path, from, to) ⚓ ➭
-// Returns the subpath of a given path between given start and end lengths
-// Element.getTotalLength() ⚓ ➭
-// Returns the length of the path in pixels (only works for path elements)
-// Element.getPointAtLength(length)
-// Element.getSubpath(from, to)
-// Snap.path.intersection(path1, path2)
-// Returns:arraydots of intersection

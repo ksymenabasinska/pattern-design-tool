@@ -23,6 +23,16 @@
     (change)="waistLevelChanged($event)">
   </mat-slider>
 
+  <h4>Poszerzenie spódnicy</h4>
+  <mat-slider
+    min="0"
+    max="1"
+    [value]="flaringLevel"
+    [step]="0.01"
+    [thumb-label]="true"
+    (change)="flaringChanged($event)">
+  </mat-slider>
+
 <!--<h3>Widok</h3>
 <mat-slide-toggle
     class="example-margin"
