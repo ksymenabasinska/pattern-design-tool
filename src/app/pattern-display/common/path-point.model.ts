@@ -6,6 +6,8 @@ export interface PathPoint {
     point: Point;
     curve: CurveType;
     curveEnd?: CurveType;
+    curveRotation?: number;
+    curveR?: number;
     linePurposes: LinePurpose[];
     // pieceIds?: number[];
     // seamAllowance?: number;
