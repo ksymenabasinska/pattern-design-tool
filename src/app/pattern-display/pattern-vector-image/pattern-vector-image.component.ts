@@ -166,7 +166,9 @@ export class PatternVectorImageComponent implements OnInit {
 
   private get skirtLength() {
     if (this.modifications) {
-      return this.legsLength * this.modifications.skirtLength;
+      const minLength = 8;
+      const maxLength = (this.legsLength - minLength);
+      return minLength + maxLength * this.modifications.skirtLength;
     }
     return  this.legsLength * 0.5;
   }

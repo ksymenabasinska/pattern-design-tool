@@ -131,7 +131,7 @@ export function createBrezierD(from: Point, to: Point, c1: Point, c2: Point): st
 
 export function createBrezierA(from: Point, to: Point, r: number): string {
     const MAX_RADIUS = 3000;
-    const flip = from.y < 10 ? '0' : '1';
+    const flip = from.y <= 0 ? '0' : '1';
     r = Math.min(r, MAX_RADIUS);
     r = Math.max(r, -1 * MAX_RADIUS);
     return 'M ' + from.x + ' ' + from.y + ' A ' +
