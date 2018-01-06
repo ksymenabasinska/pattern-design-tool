@@ -20,7 +20,7 @@ export const PathTransformer = {
 
     },
     // @TODO make flipped by any line
-    makeFlippedVertically(paths: PathPoint[], x: number) {
+    makeFlippedVertically(paths: PathPoint[], x: number): PathPoint[] {
         const flippedPaths = [];
         const maxIndex = paths.length - 1;
         paths.map((path, i) => {
@@ -28,14 +28,17 @@ export const PathTransformer = {
                 x: (x - path.point.x) + x,
                 y: path.point.y
             };
-            const pathToCopy = paths[(maxIndex * 2 + i - 1) % maxIndex];
+            const pathToCopy = {...paths[(maxIndex * 2 + i - 1) % maxIndex]};
             flippedPaths[maxIndex - i] = {
                 ...pathToCopy,
                 point: newPointLocation
             };
-            if (pathToCopy.curveEnd) {
-                flippedPaths[maxIndex - i].curve = pathToCopy.curveEnd;
-                flippedPaths[maxIndex - i].curveEnd = pathToCopy.curve;
+            if (pathToCopy.curve.endType) {
+              flippedPaths[maxIndex - i].curve = {
+                ... pathToCopy.curve,
+                endType: pathToCopy.curve.type,
+                type: pathToCopy.curve.endType,
+              };
             }
             return {...path,
                 point: newPointLocation

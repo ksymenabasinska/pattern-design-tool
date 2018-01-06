@@ -15,6 +15,7 @@ export function createPathD(from: Point, to: Point, curveType: CurveType,
     if (curveType === CurveType.ARCH) {
         return createBrezierA(from, to, r);
     }
+    console.log(curveType, endCurveType);
     return createBrezierLine(from, to, curveType, endCurveType, curveAngle);
 }
 
@@ -49,18 +50,15 @@ export function getWaistBrezierPoint(from: Point, to: Point, isEndPoint, angle =
     const rotateAngle = 45 * direction;
 
     const rotated = {
-        y: point.y + direction * (to.y - from.y) / (15),
-        x: point.x + direction * (to.x - from.x) / (15)
+        y: point.y + direction * (to.y - from.y) / (12),
+        x: point.x + direction * (to.x - from.x) / (12)
     };
     return PointTransformer.rotate(rotated, point, rotateAngle);
 }
 
-<<<<<<< HEAD
-    const x = (rotated.x - point.x) * Snap.cos(rotateAngle) - (rotated.y - point.y) * Snap.sin(rotateAngle) + point.x;
-    const y = (rotated.x - point.x) * Snap.sin(rotateAngle) - (rotated.y - point.y) * Snap.cos(rotateAngle) + point.y;
-=======
+    // const x = (rotated.x - point.x) * Snap.cos(rotateAngle) - (rotated.y - point.y) * Snap.sin(rotateAngle) + point.x;
+    // const y = (rotated.x - point.x) * Snap.sin(rotateAngle) - (rotated.y - point.y) * Snap.cos(rotateAngle) + point.y;
 export function getHipBrezierPoint(from: Point, to: Point, isEndPoint, angle = 0): Point {
-    console.log(angle);
     const point = isEndPoint ? to : from;
     const endPoint = isEndPoint ? from : to;
     angle = isEndPoint ? -1 * angle : angle;
@@ -70,7 +68,6 @@ export function getHipBrezierPoint(from: Point, to: Point, isEndPoint, angle = 0
         x: pullStrength + point.x,
         y: Math.abs(pullStrength) + point.y
     }, point, angle);
->>>>>>> ea9987491a4a9da5e7d3481f617d410f99c74194
 
 }
 
