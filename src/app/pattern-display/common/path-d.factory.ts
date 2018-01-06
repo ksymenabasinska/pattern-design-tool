@@ -56,8 +56,6 @@ export function getWaistBrezierPoint(from: Point, to: Point, isEndPoint, angle =
     return PointTransformer.rotate(rotated, point, rotateAngle);
 }
 
-    // const x = (rotated.x - point.x) * Snap.cos(rotateAngle) - (rotated.y - point.y) * Snap.sin(rotateAngle) + point.x;
-    // const y = (rotated.x - point.x) * Snap.sin(rotateAngle) - (rotated.y - point.y) * Snap.cos(rotateAngle) + point.y;
 export function getHipBrezierPoint(from: Point, to: Point, isEndPoint, angle = 0): Point {
     const point = isEndPoint ? to : from;
     const endPoint = isEndPoint ? from : to;
